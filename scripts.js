@@ -1,7 +1,7 @@
-// TO DO: adjust opacity for active elements
-// TO DO: "edit keeb" interface
 // TO DO: "add keeb" interface
 // TO DO: "remove keeb" interface (with Alert warning "lost to the ether...")
+// TO DO: nice-ify left div
+// TO DO: adjust opacity for active elements
 // TO DO: adjust background colors and/or build name based on active index
 
 let activeIndex = 0;
@@ -13,6 +13,8 @@ let mainContent = [];
 document.addEventListener("DOMContentLoaded", loadContent);
 
 async function loadContent() {
+    alert("You can edit bullet points by clicking them. Enjoy!");
+    
     const leftArrow = document.getElementById("left-arr")
     leftArrow.addEventListener("click", () => {
         activeSubIndex--;
@@ -113,6 +115,17 @@ function updateRight() {
             {
                 let new_li = document.createElement("li");
                 new_li.innerHTML = nestedAttr + ": " + mainContent[activeIndex]["build-specs"][attr][nestedAttr];
+                new_li.className = attr;
+                new_li.addEventListener("click", (event) => {
+                    let splitStr = event.target.innerHTML.split(":");
+                    let newInfo = prompt("Please enter the new " + splitStr[0]);
+                    if (newInfo != null)
+                    {
+                        mainContent[activeIndex]["build-specs"][event.target.className][splitStr[0]] = newInfo;
+                        event.target.innerHTML = splitStr[0] + ": " + mainContent[activeIndex]["build-specs"][event.target.className][splitStr[0]];
+                    }
+                })
+
                 new_ul.appendChild(new_li);
             }
         }
@@ -120,7 +133,16 @@ function updateRight() {
         else
         {
             let new_li = document.createElement("li");
-            new_li.innerHTML = mainContent[0]["build-specs"][attr];
+            new_li.innerHTML = mainContent[activeIndex]["build-specs"][attr];
+            new_li.className = attr;
+            new_li.addEventListener("click", (event) => {
+                let newDesc = prompt("Please enter the new Description");
+                if (newDesc != null)
+                {
+                    mainContent[activeIndex]["build-specs"]["Description"] = newDesc;
+                    event.target.innerHTML = mainContent[activeIndex]["build-specs"]["Description"];
+                }
+            })
             new_ul.appendChild(new_li);
         }
 

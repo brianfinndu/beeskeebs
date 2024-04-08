@@ -27,7 +27,7 @@ body {
     justify-content: start;
     align-items: start;
     margin: 20px;
-    grid-column-gap: 5%;
+    grid-column-gap: 2%;
 }
 
 #left {
