@@ -2,57 +2,96 @@ html,
 body {
     margin: 0;
     padding: 0;
+    background-color:rgb(241, 237, 237)
 }
 
 .main-header {
     background-color: rgba(0, 0, 0, .3);
+    padding-top: 20px;
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .title {
-    text-align: center;
     margin: 0;
-    font-size: 8em;
+    font-size: 4em;
     font-family: "Helvetica";
     font-weight: normal;
     color: white;
 }
 
-#card-container {
-    display: flex;
-    justify-content: center;
+#main-container {
+    display: grid;
+    grid-template-columns: 2fr 4fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    justify-content: start;
+    align-items: start;
     margin: 20px;
+    grid-column-gap: 5%;
 }
 
-.card {
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 5px;
+#left {
+    grid-area: 1 / 1 / 3  / 2;
 }
 
-.card-content {
-    padding: 20px;
-    font-family: "Verdana";
-    color: #777;
+#right {
+    grid-area: 1 / 3 / 3 / 4;
 }
 
-.card-content h2 {
-    margin-top: 0;
-    font-size: 20px;
+.left-icon {
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
 }
 
-.card img {
+#center {
+    padding-left: 5%;
+    padding-right: 5%;
+    display: grid;
+    justify-self: center;
+}
+
+.nav-arr {
+    grid-area: 1 / 2 / 2 / 3;
+    height: 10%;
+    object-fit: contain;
+    align-self: center
+}
+
+#left-arr {
+    justify-self: start;
+}
+
+#right-arr {
+    justify-self: end;
+}
+
+#focus-img {
+    grid-area: 1 / 2 / 2 / 3;
+    width: 75%;
+    object-fit: contain;
+    justify-self: center;
+}
+
+#center-low {
+    grid-area: 2 / 2 / 3 / 3;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: 10%;
+    grid-column-gap: 5%;
+    padding: 5%;
+}
+
+.center-icon {
     width: 100%;
-    height: auto;
+    object-fit: contain;
 }
 
 .footer {
     display: flex;
     justify-content: center;
     background-color: rgba(0, 0, 0, .3);
-    padding: 10px;
+    padding: 5px;
 }
 
 button {
