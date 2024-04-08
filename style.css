@@ -23,7 +23,7 @@ body {
 #main-container {
     display: grid;
     grid-template-columns: 2fr 4fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 3fr 2fr;
     justify-content: start;
     align-items: start;
     margin: 20px;
@@ -45,8 +45,6 @@ body {
 }
 
 #center {
-    padding-left: 5%;
-    padding-right: 5%;
     display: grid;
     justify-self: center;
 }
@@ -71,6 +69,7 @@ body {
     width: 75%;
     object-fit: contain;
     justify-self: center;
+    align-self: center;
 }
 
 #center-low {
@@ -85,6 +84,10 @@ body {
 .center-icon {
     width: 100%;
     object-fit: contain;
+}
+
+.add-container {
+    display: grid;
 }
 
 .footer {

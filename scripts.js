@@ -1,8 +1,9 @@
 // TO DO: "add keeb" interface
-// TO DO: "remove keeb" interface (with Alert warning "lost to the ether...")
 // TO DO: nice-ify left div
 // TO DO: adjust opacity for active elements
+// TO DO: make all interactables slightly transparent -> fully opaque on hover
 // TO DO: adjust background colors and/or build name based on active index
+// TO DO: write changes to server button
 
 let activeIndex = 0;
 let activeSubIndex = 0;
@@ -39,6 +40,7 @@ async function loadContent() {
         populateCenterLow();
         updateFocusImg();
         updateRight();
+        populateAdd();
     }
 
     req.open("GET", "https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e/latest");
@@ -148,4 +150,23 @@ function updateRight() {
 
         rightDiv.appendChild(new_ul);
     }
+
+    let new_btn = document.createElement("button");
+    new_btn.innerHTML = "Remove Keeb";
+    new_btn.addEventListener("click", () => {
+        if (confirm("Are you sure? The keeb will be lost forever..."))
+        {
+            mainContent.splice(activeIndex, 1);
+            activeIndex = 0;
+            populateLeft();
+            populateCenterLow();
+            updateFocusImg();
+            updateRight();
+        }
+    })
+    rightDiv.appendChild(new_btn);
+}
+
+function populateAdd() {
+    
 }
