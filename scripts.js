@@ -1,16 +1,24 @@
-// TO DO: GMMK Pro pictures
-// TO DO: pick some better fonts oml
-// TO DO: nice-ify left div
-// TO DO: adjust opacity for active elements
 // TO DO: adjust background colors and/or build name based on active index
+// TO DO: write proper descriptions
+
 // TO DO: add "like" button that updates server
 // TO DO: sort by (popularity, switch type, keycap material)
 // TO DO: write changes to server button
+
+// TO DO: adjust opacity for active elements
 
 let activeIndex = 0;
 let activeSubIndex = 0;
 let photoIndex = 0;
 let mainContent = [];
+
+let infoArr = [
+    ["Misc Macropads", "https://i.imgur.com/oVXGUsQ.jpeg, https://i.imgur.com/2zuwOqw.jpeg, https://i.imgur.com/B4Ej2Ne.jpeg, https://i.imgur.com/OsR1qd0.jpeg, https://i.imgur.com/DhKcEW5.jpeg, https://i.imgur.com/NV29u3b.jpeg, https://i.imgur.com/FpAIj8y.jpeg, https://i.imgur.com/xoB24Bp.jpeg",
+        "10, 21, 107", "Meletrix ZoomPad / OwLab Voice Mini / Stack Overflow The Key", "Assorted", "Macro", "Assorted", "PuNkShoO Root Beer Float / OwLab London Fog / Invokeys Black Sesame", "62g / 60g / 63g", "Tactile / Linear / Linear",
+        "Gateron Milky / Polycarbonate / Polycarbonate", "Gateron Ink / Polycarbonate / Nylon", "Gateron / BSUN / Aflion", "GMK Pixel / shirouu.kaps Misc / Stock", "ABS / Clay / PBT", "Cunty!"],
+    ["Darksaber", "https://i.imgur.com/cHMIwPf.jpeg, https://i.imgur.com/nflPCR6.jpeg, https://i.imgur.com/2tMIw8I.jpeg, https://i.imgur.com/pvj4GYa.jpeg, https://i.imgur.com/EUxEgUo.jpeg, https://i.imgur.com/TnC7l6G.jpeg",
+        "0, 0, 0", "GMMK Pro", "Aluminum", "75%", "Sandwich", "Geon BSUN Raw", "55g", "Tactile", "Polycarbonate", "Nylon", "BSUN", "Cerakey Black Legendless", "Ceramic", "Cunty!"]            
+];
 
 document.addEventListener("DOMContentLoaded", loadContent);
 
@@ -19,7 +27,7 @@ async function loadContent() {
     
     document.getElementById("left-arr").addEventListener("click", () => {
         activeSubIndex--;
-        activeSubIndex += activeSubIndex + mainContent[activeIndex]["media-urls"].length;
+        activeSubIndex += mainContent[activeIndex]["media-urls"].length;
         activeSubIndex = activeSubIndex % mainContent[activeIndex]["media-urls"].length;
         updateFocusImg();
     })
@@ -31,14 +39,18 @@ async function loadContent() {
     })
 
     document.getElementById("sample-btn").addEventListener("click", () => {
+        if(infoArr.length == 0)
+        {
+            alert("Sorry, no more sample data left!");
+            return;
+        }
+
         kids = document.getElementById("add-container").getElementsByTagName("input");
-        const infoArr = ["Darksaber", "https://i.imgur.com/qiqmOI7.png", "0, 0, 0", "GMMK Pro", "Aluminum", "75%", "Sandwich",
-            "Laguna Blue", "55g", "Linear", "POM", "POM", "Secret!", "Cerakey Black Legendless",
-            "Ceramic", "Cunty!"];
+        let sampleList = infoArr.pop();
         
         for(let i = 0; i < kids.length; i++)
         {
-            kids[i].value = infoArr[i];
+            kids[i].value = sampleList[i];
         }
     });
 
@@ -150,6 +162,8 @@ function updateFocusImg() {
 function updateCenter() {
     populateCenterLow();
     updateFocusImg();
+    document.body.style.backgroundColor = "rgba(" + mainContent[activeIndex]["accent-code"] + ", 0.15)";
+    document.getElementsByClassName("main-header")[0].style.backgroundColor = "rgba(" + mainContent[activeIndex]["accent-code"] + ", 0.95)";
 }
 
 function updateRight() {
