@@ -180,8 +180,8 @@ function updateRight() {
                     let newInfo = prompt("Please enter the new " + splitStr[0]);
                     if (newInfo != null)
                     {
-                        mainContent[activeIndex]["build-specs"][event.target.className][splitStr[0]] = newInfo;
-                        event.target.innerHTML = splitStr[0] + ": " + mainContent[activeIndex]["build-specs"][event.target.className][splitStr[0]];
+                        mainContent[activeIndex]["build-specs"][event.target.className.split(' ')[0]][splitStr[0]] = newInfo;
+                        event.target.innerHTML = splitStr[0] + ": " + mainContent[activeIndex]["build-specs"][event.target.className.split(' ')[0]][splitStr[0]];
                     }
                 })
 
