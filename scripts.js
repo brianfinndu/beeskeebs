@@ -1,4 +1,4 @@
-// TO DO: "add keeb" interface
+// TO DO: GMMK Pro pictures
 // TO DO: pick some better fonts oml
 // TO DO: nice-ify left div
 // TO DO: adjust opacity for active elements
@@ -12,24 +12,81 @@ let activeSubIndex = 0;
 let photoIndex = 0;
 let mainContent = [];
 
-// This calls the addCards() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", loadContent);
 
 async function loadContent() {
     alert("You can edit bullet points by clicking them. Enjoy!");
     
-    const leftArrow = document.getElementById("left-arr")
-    leftArrow.addEventListener("click", () => {
+    document.getElementById("left-arr").addEventListener("click", () => {
         activeSubIndex--;
-        activeSubIndex = (activeSubIndex + mainContent[activeIndex]["media-urls"].length) % mainContent[activeIndex]["media-urls"].length;
+        activeSubIndex += activeSubIndex + mainContent[activeIndex]["media-urls"].length;
+        activeSubIndex = activeSubIndex % mainContent[activeIndex]["media-urls"].length;
         updateFocusImg();
     })
 
-    const rightArrow = document.getElementById("right-arr")
-    rightArrow.addEventListener("click", () => {
+    document.getElementById("right-arr").addEventListener("click", () => {
         activeSubIndex++;
         activeSubIndex = activeSubIndex % mainContent[activeIndex]["media-urls"].length;
         updateFocusImg();
+    })
+
+    document.getElementById("sample-btn").addEventListener("click", () => {
+        kids = document.getElementById("add-container").getElementsByTagName("input");
+        const infoArr = ["Darksaber", "https://i.imgur.com/qiqmOI7.png", "0, 0, 0", "GMMK Pro", "Aluminum", "75%", "Sandwich",
+            "Laguna Blue", "55g", "Linear", "POM", "POM", "Secret!", "Cerakey Black Legendless",
+            "Ceramic", "Cunty!"];
+        
+        for(let i = 0; i < kids.length; i++)
+        {
+            kids[i].value = infoArr[i];
+        }
+    });
+
+    document.getElementById("add-coll-btn").addEventListener("click", () => {
+        kids = document.getElementById("add-container").getElementsByTagName("input");
+        let newObj = {};
+        newObj["build-specs"] = {"Case": {}, "Switches": {}, "Keycaps": {}};
+        for (let i = 0; i < kids.length; i++)
+        {
+            let splitID = kids[i].id.split("/");
+            
+            if(splitID[0] == "media-urls")
+            {
+                newObj["media-urls"] = [];
+                let splitVals = kids[i].value.split(", ");
+                for(const item in splitVals)
+                {
+                    newObj["media-urls"].push(splitVals[item]);
+                }
+            }
+
+            // this is... very messy
+
+            else if(splitID.length == 1)
+            {
+                newObj[splitID[0]] = kids[i].value;
+            }
+
+            else if(splitID.length == 2)
+            {
+                newObj[splitID[0]][splitID[1]] = kids[i].value;
+            }
+
+            else if(splitID.length == 3)
+            {
+                newObj[splitID[0]][splitID[1]][splitID[2]] = kids[i].value;
+            }
+        }
+
+        mainContent.push(newObj);
+        populateLeft();
+        updateCenter();
+        updateRight();
+
+        for(let i = 0; i < kids.length; i++)
+        {
+            kids[i].value = "";
+        }
     })
     
     let req = new XMLHttpRequest();
@@ -93,8 +150,6 @@ function updateFocusImg() {
 function updateCenter() {
     populateCenterLow();
     updateFocusImg();
-    // const centerDiv = document.getElementById("center");
-    // centerDiv.attributes['style'].textContent = 'background-color:' + mainContent[activeIndex]["accent-code"];
 }
 
 function updateRight() {
@@ -168,60 +223,3 @@ function updateRight() {
     })
     rightDiv.appendChild(new_btn);
 }
-
-/*
-function populateAdd() {
-    let rowCounter = 1;
-    let colCounter = 1;
-    let addContainer = document.getElementById("add-container");
-
-    for(const attr in mainContent[0])
-    {
-        if(Array.isArray(mainContent[0][attr]) || typeof(mainContent[0][attr]) == "string")
-        {
-            if(attr == "Description")
-            {
-                colCounter++;
-            }
-
-            addContainer.appendChild(createStringInput(attr, rowCounter, colCounter));
-            rowCounter++;
-        }
-
-        else if(typeof(mainContent[0][attr]) == "object")
-        {
-            colCounter++;
-            rowCounter = 1;
-
-            let new_p = document.createElement("p");
-            new_p.innerText = attr;
-            new_p.style.gridArea = rowCounter + " / " + colCounter + " / " + (rowCounter + 1) + (colCounter + 1);
-            rowCounter++;
-
-            for(const subAttr in mainContent[0][attr])
-            {
-                addContainer.appendChild(createStringInput(attr + "-" + subAttr, rowCounter, colCounter));
-                rowCounter++;
-            }
-        }
-    }
-}
-
-function createStringInput(attr, rowCounter, colCounter) {
-    let new_div = document.createElement("div");
-            
-    let new_p = document.createElement("p");
-    new_p.innerText = attr;
-    new_div.appendChild(new_p);
-    
-    let new_input = document.createElement("input");
-    new_input.type = "text";
-    new_input.id = attr + "-input";
-
-    new_div.style.gridArea = rowCounter + " / " + colCounter + " / " + (rowCounter + 1) + (colCounter + 1);
-    
-    new_div.appendChild(new_input);
-
-    return new_div;
-}
-*/
