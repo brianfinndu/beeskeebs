@@ -1,5 +1,4 @@
-// TO DO: adjust background colors and/or build name based on active index
-// TO DO: write proper descriptions
+// Please note that the initial data used to load the site is stored as a JSON at https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e
 
 // TO DO: add "like" button that updates server
 // TO DO: sort by (popularity, switch type, keycap material)
@@ -15,9 +14,11 @@ let mainContent = [];
 let infoArr = [
     ["Misc Macropads", "https://i.imgur.com/oVXGUsQ.jpeg, https://i.imgur.com/2zuwOqw.jpeg, https://i.imgur.com/B4Ej2Ne.jpeg, https://i.imgur.com/OsR1qd0.jpeg, https://i.imgur.com/DhKcEW5.jpeg, https://i.imgur.com/NV29u3b.jpeg, https://i.imgur.com/FpAIj8y.jpeg, https://i.imgur.com/xoB24Bp.jpeg",
         "10, 21, 107", "Meletrix ZoomPad / OwLab Voice Mini / Stack Overflow The Key", "Assorted", "Macro", "Assorted", "PuNkShoO Root Beer Float / OwLab London Fog / Invokeys Black Sesame", "62g / 60g / 63g", "Tactile / Linear / Linear",
-        "Gateron Milky / Polycarbonate / Polycarbonate", "Gateron Ink / Polycarbonate / Nylon", "Gateron / BSUN / Aflion", "GMK Pixel / shirouu.kaps Misc / Stock", "ABS / Clay / PBT", "Cunty!"],
+        "Gateron Milky / Polycarbonate / Polycarbonate", "Gateron Ink / Polycarbonate / Nylon", "Gateron / BSUN / Aflion", "GMK Pixel / shirouu.kaps Misc / Stock", "ABS / Clay / PBT",
+        "These fun layouts can accomplish all sorts of things! The ZoomPad is a traditional number pad with a knob; the Voice Mini doubles as an artisan keycap display and has the OwLab Voice65's signature wheel; The Key was Drop and Stack Overflow's April Fools joke come to life in 2022."],
     ["Darksaber", "https://i.imgur.com/cHMIwPf.jpeg, https://i.imgur.com/nflPCR6.jpeg, https://i.imgur.com/2tMIw8I.jpeg, https://i.imgur.com/pvj4GYa.jpeg, https://i.imgur.com/EUxEgUo.jpeg, https://i.imgur.com/TnC7l6G.jpeg",
-        "0, 0, 0", "GMMK Pro", "Aluminum", "75%", "Sandwich", "Geon BSUN Raw", "55g", "Tactile", "Polycarbonate", "Nylon", "BSUN", "Cerakey Black Legendless", "Ceramic", "Cunty!"]            
+        "0, 0, 0", "GMMK Pro", "Aluminum", "75%", "Sandwich", "Geon BSUN Raw", "55g", "Tactile", "Polycarbonate", "Nylon", "BSUN", "Cerakey Black Legendless", "Ceramic",
+        "This board is themed after the legendary Darksaber from the Star Wars universe. Framed in stunning black and white (unless rainbows are your thing!), the board's imposing profile is complemented by the unique ceramic keycaps' glossy finish."]            
 ];
 
 document.addEventListener("DOMContentLoaded", loadContent);
