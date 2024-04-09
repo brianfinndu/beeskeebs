@@ -1,8 +1,10 @@
 // TO DO: "add keeb" interface
+// TO DO: pick some better fonts oml
 // TO DO: nice-ify left div
 // TO DO: adjust opacity for active elements
-// TO DO: make all interactables slightly transparent -> fully opaque on hover
 // TO DO: adjust background colors and/or build name based on active index
+// TO DO: add "like" button that updates server
+// TO DO: sort by (popularity, switch type, keycap material)
 // TO DO: write changes to server button
 
 let activeIndex = 0;
@@ -37,10 +39,8 @@ async function loadContent() {
         mainContent = JSON.parse(req.response);
         
         populateLeft();
-        populateCenterLow();
-        updateFocusImg();
+        updateCenter();
         updateRight();
-        populateAdd();
     }
 
     req.open("GET", "https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e/latest");
@@ -55,7 +55,7 @@ function populateLeft() {
     for(let i = 0; i < mainContent.length; i++)
     {
         let new_img = document.createElement("img");
-        new_img.className = "left-icon";
+        new_img.className = "left-icon clickable";
         new_img.src = mainContent[i]["media-urls"][0];
         new_img.setAttribute("item-index", i);
         new_img.addEventListener("click", (event) => {
@@ -74,7 +74,7 @@ function populateCenterLow() {
     for(let i = 0; i < mainContent[activeIndex]["media-urls"].length; i++)
     {
         let new_img = document.createElement("img");
-        new_img.className = "center-icon";
+        new_img.className = "center-icon clickable";
         new_img.src = mainContent[activeIndex]["media-urls"][i];
         new_img.setAttribute("item-index", i);
         new_img.addEventListener("click", (event) => {
@@ -93,6 +93,8 @@ function updateFocusImg() {
 function updateCenter() {
     populateCenterLow();
     updateFocusImg();
+    // const centerDiv = document.getElementById("center");
+    // centerDiv.attributes['style'].textContent = 'background-color:' + mainContent[activeIndex]["accent-code"];
 }
 
 function updateRight() {
@@ -117,7 +119,7 @@ function updateRight() {
             {
                 let new_li = document.createElement("li");
                 new_li.innerHTML = nestedAttr + ": " + mainContent[activeIndex]["build-specs"][attr][nestedAttr];
-                new_li.className = attr;
+                new_li.className = attr + " clickable";
                 new_li.addEventListener("click", (event) => {
                     let splitStr = event.target.innerHTML.split(":");
                     let newInfo = prompt("Please enter the new " + splitStr[0]);
@@ -136,7 +138,7 @@ function updateRight() {
         {
             let new_li = document.createElement("li");
             new_li.innerHTML = mainContent[activeIndex]["build-specs"][attr];
-            new_li.className = attr;
+            new_li.className = attr + " clickable";
             new_li.addEventListener("click", (event) => {
                 let newDesc = prompt("Please enter the new Description");
                 if (newDesc != null)
@@ -153,20 +155,73 @@ function updateRight() {
 
     let new_btn = document.createElement("button");
     new_btn.innerHTML = "Remove Keeb";
+    new_btn.className = "clickable";
     new_btn.addEventListener("click", () => {
         if (confirm("Are you sure? The keeb will be lost forever..."))
         {
             mainContent.splice(activeIndex, 1);
             activeIndex = 0;
             populateLeft();
-            populateCenterLow();
-            updateFocusImg();
+            updateCenter();
             updateRight();
         }
     })
     rightDiv.appendChild(new_btn);
 }
 
+/*
 function populateAdd() {
-    
+    let rowCounter = 1;
+    let colCounter = 1;
+    let addContainer = document.getElementById("add-container");
+
+    for(const attr in mainContent[0])
+    {
+        if(Array.isArray(mainContent[0][attr]) || typeof(mainContent[0][attr]) == "string")
+        {
+            if(attr == "Description")
+            {
+                colCounter++;
+            }
+
+            addContainer.appendChild(createStringInput(attr, rowCounter, colCounter));
+            rowCounter++;
+        }
+
+        else if(typeof(mainContent[0][attr]) == "object")
+        {
+            colCounter++;
+            rowCounter = 1;
+
+            let new_p = document.createElement("p");
+            new_p.innerText = attr;
+            new_p.style.gridArea = rowCounter + " / " + colCounter + " / " + (rowCounter + 1) + (colCounter + 1);
+            rowCounter++;
+
+            for(const subAttr in mainContent[0][attr])
+            {
+                addContainer.appendChild(createStringInput(attr + "-" + subAttr, rowCounter, colCounter));
+                rowCounter++;
+            }
+        }
+    }
 }
+
+function createStringInput(attr, rowCounter, colCounter) {
+    let new_div = document.createElement("div");
+            
+    let new_p = document.createElement("p");
+    new_p.innerText = attr;
+    new_div.appendChild(new_p);
+    
+    let new_input = document.createElement("input");
+    new_input.type = "text";
+    new_input.id = attr + "-input";
+
+    new_div.style.gridArea = rowCounter + " / " + colCounter + " / " + (rowCounter + 1) + (colCounter + 1);
+    
+    new_div.appendChild(new_input);
+
+    return new_div;
+}
+*/
