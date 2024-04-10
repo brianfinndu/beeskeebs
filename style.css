@@ -31,7 +31,7 @@ input {
 
 #main-container {
     display: grid;
-    grid-template-columns: 2fr 4fr 2fr;
+    grid-template-columns: 1fr 4fr 2fr;
     grid-template-rows: auto auto;
     justify-content: start;
     align-items: start;
@@ -41,10 +41,21 @@ input {
 
 #left {
     grid-area: 1 / 1 / 3 / 2;
+    height: 100%;
+    display: block;
+}
+
+#left-nav-arr {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 4%;
-    grid-row-gap: 6%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#like {
+    top: 100%;
+}
+
+#like-keeb {
+    width: 50%;
 }
 
 #right {
@@ -69,17 +80,27 @@ input {
     align-self: center
 }
 
+#like-start-p {
+    margin-top: 0;
+}
+
+#like-end-p {
+    margin-bottom: 0;
+}
+
 #left-arr {
     justify-self: start;
+    width: 12%;
 }
 
 #right-arr {
     justify-self: end;
+    width: 12%;
 }
 
 #focus-img {
     grid-area: 1 / 2 / 2 / 3;
-    width: 75%;
+    width: 76%;
     object-fit: contain;
     justify-self: center;
     align-self: center;
@@ -240,7 +261,7 @@ button {
 }
 
 .clickable {
-    opacity: 0.9;
+    opacity: 0.75;
 }
 
 .clickable:hover {

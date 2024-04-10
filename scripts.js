@@ -1,15 +1,17 @@
 // Please note that the initial data used to load the site is stored as a JSON at https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e
 
-// TO DO: add "like" button that updates server
 // TO DO: sort by (popularity, switch type, keycap material)
-// TO DO: write changes to server button
 
+// TO DO: write changes to server button
+// TO DO: handle empty mainContent
 // TO DO: adjust opacity for active elements
 
 let activeIndex = 0;
 let activeSubIndex = 0;
 let photoIndex = 0;
 let mainContent = [];
+let likedKeebs = {};
+let keebRecord = {};
 
 let infoArr = [
     ["Misc Macropads", "https://i.imgur.com/oVXGUsQ.jpeg, https://i.imgur.com/2zuwOqw.jpeg, https://i.imgur.com/B4Ej2Ne.jpeg, https://i.imgur.com/OsR1qd0.jpeg, https://i.imgur.com/DhKcEW5.jpeg, https://i.imgur.com/NV29u3b.jpeg, https://i.imgur.com/FpAIj8y.jpeg, https://i.imgur.com/xoB24Bp.jpeg",
@@ -101,7 +103,38 @@ async function loadContent() {
             kids[i].value = "";
         }
     })
-    
+
+    document.getElementById("like-keeb").addEventListener("click", () => {
+        if(mainContent[activeIndex]["name"] in likedKeebs)
+        {
+            return;
+        }
+
+        else
+        {
+            likedKeebs[mainContent[activeIndex]["name"]] = 1;
+
+            document.getElementById("like-keeb").src = "https://i.imgur.com/JnmMjRh.png";
+
+            keebRecord[mainContent[activeIndex]["name"]] += 1;
+            
+            let req = new XMLHttpRequest();
+
+            req.onload = () =>
+            {
+                if(req.readyState == XMLHttpRequest.DONE)
+                {
+                    console.log(req.responseText);
+                }
+            }
+
+            req.open("PUT", "https://api.jsonbin.io/v3/b/66161d63acd3cb34a8362107", true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.setRequestHeader("X-Master-Key", "$2b$10$NcpW2rFP851TgVn6DZ4iQu/akYysLsu/UC8B7COjY2WiWzEmsAg4y");
+            req.send(JSON.stringify(keebRecord));
+        }
+    })
+
     let req = new XMLHttpRequest();
 
     req.onload = () => 
@@ -111,6 +144,19 @@ async function loadContent() {
         populateLeft();
         updateCenter();
         updateRight();
+
+        let req2 = new XMLHttpRequest();
+
+        req2.onload = () =>
+        {
+            keebRecord = JSON.parse(req2.response);
+            document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
+        }
+    
+        req2.open("GET", "https://api.jsonbin.io/v3/b/66161d63acd3cb34a8362107/latest");
+        req2.setRequestHeader("X-Master-Key", "$2b$10$NcpW2rFP851TgVn6DZ4iQu/akYysLsu/UC8B7COjY2WiWzEmsAg4y");
+        req2.setRequestHeader("X-Bin-Meta", "false");
+        req2.send();
     }
 
     req.open("GET", "https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e/latest");
@@ -120,8 +166,8 @@ async function loadContent() {
 }
 
 function populateLeft() {
-    const leftDiv = document.getElementById("left");
-    leftDiv.innerHTML = "";
+    const leftNavArr = document.getElementById("left-nav-arr");
+    leftNavArr.innerHTML = "";
     for(let i = 0; i < mainContent.length; i++)
     {
         let new_img = document.createElement("img");
@@ -133,8 +179,20 @@ function populateLeft() {
             activeSubIndex = 0;
             updateCenter();
             updateRight();
+            
+            if(mainContent[activeIndex]["name"] in likedKeebs)
+            {
+                document.getElementById("like-keeb").src = "https://i.imgur.com/JnmMjRh.png";
+            }
+
+            else
+            {
+                document.getElementById("like-keeb").src = "https://i.imgur.com/bxotOU9.png";
+            }
+
+            document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
         })
-        leftDiv.appendChild(new_img);
+        leftNavArr.appendChild(new_img);
     }
 }
 
