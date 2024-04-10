@@ -1,13 +1,13 @@
 // Please note that the initial data used to load the site is stored as a JSON at https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e
 
-// TO DO: sort by (popularity, switch type, keycap material)
-// TO DO: write changes to server button
+// TO DO: comments section
+// TO DO: sort by (popularity, switch type, keycap material, etc)
+// TO DO: write changes to server feature
 // TO DO: handle empty mainContent
 // TO DO: adjust opacity for active elements
 
 let activeIndex = 0;
 let activeSubIndex = 0;
-let photoIndex = 0;
 let mainContent = [];
 let likedKeebs = {};
 let keebRecord = {};
@@ -139,6 +139,8 @@ async function loadContent() {
             req.setRequestHeader("Content-Type", "application/json");
             req.setRequestHeader("X-Master-Key", "$2b$10$NcpW2rFP851TgVn6DZ4iQu/akYysLsu/UC8B7COjY2WiWzEmsAg4y");
             req.send(JSON.stringify(keebRecord));
+
+            document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
         }
     })
 
@@ -208,6 +210,26 @@ function populateLeft() {
             }
         })
         leftNavArr.appendChild(new_img);
+    }
+
+    if(mainContent[activeIndex]["name"] in likedKeebs)
+    {
+        document.getElementById("like-keeb").src = "https://i.imgur.com/JnmMjRh.png";
+    }
+
+    else
+    {
+        document.getElementById("like-keeb").src = "https://i.imgur.com/bxotOU9.png";
+    }
+
+    if(mainContent[activeIndex]["name"] in keebRecord)
+    {
+        document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
+    }
+    
+    else
+    {
+        document.getElementById("like-start-p").innerText = "0 users like this keeb!";
     }
 }
 
