@@ -1,7 +1,6 @@
 // Please note that the initial data used to load the site is stored as a JSON at https://api.jsonbin.io/v3/b/6611d64ce41b4d34e4e0661e
 
 // TO DO: sort by (popularity, switch type, keycap material)
-
 // TO DO: write changes to server button
 // TO DO: handle empty mainContent
 // TO DO: adjust opacity for active elements
@@ -116,7 +115,15 @@ async function loadContent() {
 
             document.getElementById("like-keeb").src = "https://i.imgur.com/JnmMjRh.png";
 
-            keebRecord[mainContent[activeIndex]["name"]] += 1;
+            if(mainContent[activeIndex]["name"] in keebRecord)
+            {
+                keebRecord[mainContent[activeIndex]["name"]] += 1;
+            }
+
+            else
+            {
+                keebRecord[mainContent[activeIndex]["name"]] = 1;
+            }
             
             let req = new XMLHttpRequest();
 
@@ -190,7 +197,15 @@ function populateLeft() {
                 document.getElementById("like-keeb").src = "https://i.imgur.com/bxotOU9.png";
             }
 
-            document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
+            if(mainContent[activeIndex]["name"] in keebRecord)
+            {
+                document.getElementById("like-start-p").innerText = keebRecord[mainContent[activeIndex]["name"]] + " users like this keeb!";
+            }
+            
+            else
+            {
+                document.getElementById("like-start-p").innerText = "0 users like this keeb!";
+            }
         })
         leftNavArr.appendChild(new_img);
     }
