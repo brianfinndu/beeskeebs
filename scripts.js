@@ -177,6 +177,11 @@ async function loadContent() {
 function populateLeft() {
     const leftNavArr = document.getElementById("left-nav-arr");
     leftNavArr.innerHTML = "";
+    if (mainContent.length === 0) {
+        leftNavArr.innerHTML = "";
+        document.getElementById("like-start-p").innerText = "";
+        return;
+    }
     for(let i = 0; i < mainContent.length; i++)
     {
         let new_img = document.createElement("img");
@@ -236,6 +241,10 @@ function populateLeft() {
 function populateCenterLow() {
     const centerLow = document.getElementById("center-low");
     centerLow.innerHTML = "";
+    if (mainContent.length === 0) {
+        centerLow.innerHTML = "No more keyboard!";
+        return;
+    }
     for(let i = 0; i < mainContent[activeIndex]["media-urls"].length; i++)
     {
         let new_img = document.createElement("img");
@@ -251,8 +260,15 @@ function populateCenterLow() {
 }
 
 function updateFocusImg() {
+    
     const focusImage = document.getElementById("focus-img");
-    focusImage.src = mainContent[activeIndex]["media-urls"][activeSubIndex];
+    if (mainContent.length === 0) {
+        focusImage.remove();
+        return;
+    } else {
+        focusImage.src = mainContent[activeIndex]["media-urls"][activeSubIndex];
+    }
+    
 }
 
 function updateCenter() {
@@ -265,6 +281,10 @@ function updateCenter() {
 function updateRight() {
     const rightDiv = document.getElementById("right");
     rightDiv.innerHTML = "";
+
+    if (mainContent.length === 0) {
+        return;
+    }
 
     let new_h1 = document.createElement("h1");
     new_h1.innerHTML = mainContent[activeIndex]["name"];
@@ -325,10 +345,17 @@ function updateRight() {
         if (confirm("Are you sure? The keeb will be lost forever..."))
         {
             mainContent.splice(activeIndex, 1);
-            activeIndex = 0;
-            populateLeft();
-            updateCenter();
-            updateRight();
+            if (mainContent.length === 0) {
+                rightDiv.innerHTML = "";
+                populateLeft();
+                updateCenter();
+
+            } else {
+                activeIndex = 0;
+                populateLeft();
+                updateCenter();
+                updateRight();
+            }
         }
     })
     rightDiv.appendChild(new_btn);
